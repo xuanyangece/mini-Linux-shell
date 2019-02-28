@@ -1,0 +1,843 @@
+Run ./myShell 
+    You will see that it prints 
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    which is correct because when user opens the shell the prompt should show the current directory and $
+
+And then run:
+(1) all of the following:
+
+    (nothing, or just hit enter)
+       (one or several spaces)
+    
+    You will see that it prints 
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    
+    which is correct because there's no command and it should act like real shell, just a new prompt.
+
+(2) all of the following:
+    exit(plain exit)
+      exit   (exit with space around)
+       exit(space before)
+    exit  (space after)
+    exit  ls(with argument)
+    exit  /bin/ls(with argument)
+    exit  asdsdfds(with arbitrary argument)
+      exit clear  (with argument)
+      exit mozxczx  (with arbitrary argument)
+      exit aa bb cc (with several arbitrary arguments)
+
+    You will see that it prints
+    Program exited with status 0
+    and then you return to your real linux shell
+    
+    which is correct because on the one hand "exit" is interpret as the command and like linux shell's behavior, no matter what is given after "exit" it will exit anyway.
+    And on the other hand the task askes us to print print exit information before program exits.
+
+    If we change any character of "exit" to uppercase, for example EXIT, it should prints:
+    Command EXIT not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because "exit" is case-sensitive. If any character is uppercase it should be treated as another command.
+
+(3) all of the following:
+    mxasd exit
+    mxasd exit  masdoi
+    mxasd   exit masdoi
+    mxasd nboi exit 
+    mxasd asd exit asd
+
+    You will see that it prints
+    Command mxasd not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because first word is interpret as command and others after it are treated as arguments.
+    So for these input the unique command are "mxasd". No path were provided so the shell searches through pathes according to environment variable PATH and cannot find a file called "mxasd" in all these pathes.
+    Then it shows that command was not found and new prompt came out.
+
+(4) all of the following:
+    /bin/ls 
+    ls
+    ls -a
+    ls     -a
+    ls          -a
+
+    You will see that it prints 
+    exactly what (ls/ls -a) prints in real linux shell.
+
+    which is correct because for the first one "/bin/ls", path is provided and my shell searches in given path "/bin/" and there's a file called "ls" so it executes it.
+    This file does what linux "ls" does so the result is the same.
+    For the second and third one it is correct because there's no path provided so the shell searches environment variable PATH and can find "ls" in these path.
+    Then executes the file, take arguments and gets the same result as linux shell.
+
+(5) clear
+
+    You will see that the screen is cleared and only messages on the top are
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because this is what linux command "clear" does. But for our shell we run the program "clear" and after program exits there should always be a message.
+    So "Program exited with status 0" is printed.
+
+(6) all of the following:
+    asd/
+    /sfdsxv/we2321/
+    /bin/
+    ./
+    ../
+
+    You will see that it prints:
+    Invalid command: need a command not a pure directory!
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because provided input's format is a directory without command name.
+
+(7) all of the following:
+    .
+    ..
+
+    You will see that it prints:
+    Command .(and .. for the second input) not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because "." or ".." is the first and only word in our input. It's treated as a command. 
+    And there's command named "." or ".." in linux so the result is correct.
+
+(8) all of the following:
+    asd/asd
+    /asd/ls
+    /ls/ls
+    /asd/asd
+
+    You will see that it prints:
+    invalid directory path.
+    Program exited with status 1
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because input is provided with directory and command name. So the shell searches that directory and the directory does not exist.
+    So shell recognizes directory is invalid and prints message.
+    Then it exits and prints exit status.
+
+(9) echo ls
+
+    You will see that it prints:
+    ls
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because for this input "echo" is the command and "ls" is its argument.
+    So like real linux "echo", it reprints "ls".
+
+(10) all of the following:
+    asdxz
+    akonoqwe
+    xcnower
+    LS
+    CleAr
+
+    You will see that it prints:
+    Command asdxz/akonoqwe/xcnower/LS/CleAr not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because there's no such commands in environment's default paths.
+
+(11) /bin/amd
+
+    You will see that it prints:
+    Command /bin/amd not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $     
+
+    which is correct because it's treated as a command with full path. And thre path is valid. But shell cannot find command in such path.
+    So it prints the full path and name, and says not found.
+
+(12) ls \ a
+
+    You will see that it prints:
+    /bin/ls: cannot access ' a': No such file or directory
+    Program exited with status 2
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because space right after '\' should be included in arguments.
+    That's what step2 told us.
+
+*** I will include more test cases for '\' later ***
+
+(13) all of the following: 
+    cd
+    cd ~
+
+    You will see that it prints:
+    myShell$:/home/xy91 $ 
+
+    and if we continue to type "env", we should see the variable "PWD" is set as "/home/xy91" 
+
+    which is correct because "cd" changes directory. In our case when there's no additional argument, it should change directory to "HOME", which is "/home/xy91".
+    And when there's argument "~", it should change to "HOME" directory, too.
+    So it's correct. And after that the "PWD" variable which indicates current directory should also change according to our destination.
+
+(14) cd .
+
+    You will see that it prints:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and environment variable "PWD" has not changed.
+
+    which is correct because "." represents current directory.
+
+(15) cd ..
+
+    You will see that it prints:
+    myShell$:/home/xy91/ece551 $ 
+
+    and environment variable "PWD" changed to "/home/xy91/ece551"
+
+    which is correct because ".." represents the parent directory, in our case it's "/home/xy91/ece551".
+
+(16) cd /
+
+    You will see that it prints:
+    myShell$:/ $ 
+
+    and "PWD" changed to to "/".
+
+    which is correct because "/" stands for root directory which is "/".
+
+(16) all of the following:
+    cd /usr
+    cd /usr/
+
+    You will see that it prints:
+    myShell$:/usr $ 
+
+    and "PWD" changed to "/usr"
+
+    which is correct because both "/usr" and "/usr/" stands for the directory "/usr"
+
+(17) all of the following:
+    cd . .
+    cd /bin/ /usr
+    cd asd xzc
+    cd .. 1232 .
+    cd .. .. ..
+    cd omx lasd sad wqe
+
+    You will see that it prints:
+    cd: too many arguments
+
+    which is correct because "cd" only need one correct path.
+
+(18) set abc(with no space after)
+    set abc (with one space after)
+    set abc    (with multiple space after)
+
+    For all these you will see that it prints:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and for all these if we continue to type:
+    echo $abc
+    You will see it prints:
+
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because in our shell, when nothing is provided as variable value or spaces are provided,
+    our shell treats its value as empty string.
+    So when we "echo", there's an empty line.
+
+(19) set abc 123
+    You will see it prints:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    continue to type:
+    echo $abc
+    You will see it prints:
+    123
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because now variable "abc" stores value "123"
+
+    then type: 
+    abc xxx
+    You will see it prints:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    then type:
+    $abc
+    You will see it prints:
+    Command xxx not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because for command every variable with $ before it should be interpreted as its value.
+
+    then type:
+    $aBc
+    you will see it prints:
+    Command aBc not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because variable's name is case-sensitive.
+
+(20) set skr 123
+    it should print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and then type: set skrr 456
+    it should print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and then type: set skrrr 789
+    it should print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and then type: set rr 000
+    it should print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and then type: echo $skrrr
+    it should print:
+    789
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    and then type: echo $skr$rr
+    it should print:
+    123000
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because:
+    1. when we use set new variable, it's the built-in instruction so no child process was forked. When it successfully set new variable the shell message is printed as usual.
+    2. when we use "echo $skrrr", it should match the variable "skrrr" whose value is "789", so it's printed.
+    3. when we use "echo $skr$rr", there are two variables "skr" and "rr", whose values are "789" and "000" coresspondingly.
+
+(21) set a_b_c kk
+    then type:
+    set kk jmb
+    then type:
+    echo $$a_b_c
+
+    You will see it prints:
+    kk
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because there's no match for the first "$", and for the second "$", variable "a_b_c" was matched.
+
+(22) all of the following: 
+    set a=bb
+    set a;][][]  kxc
+    set _12~called
+    set #3co m
+    set #3co
+
+    You will see it prints:
+    set: invalid variable name
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    
+    which is correct because the variables' names are not valid according to the rule.
+
+    and if we continue to type(for example for the first situation):
+    $a=bb
+
+    You will see it prints:
+    Command a=b not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because there's no variable matched for "$".
+
+(23) set i  mm _ = 22 k1k bb
+    then type:
+    echo $i
+
+    You will see it prints:
+    mm _ = 22 k1k bb
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    because everything after variable name and space will be its value.
+
+(24) set bb  ls  -a
+    then type:
+    $bb
+
+    You will see it prints what linux "ls -a" prints
+
+    which is correct because variable "bb"'s value is "ls  -a". It will be the real command.
+
+(25) set b x
+    then type:
+    $$$$$bbbbb
+
+    You will see it prints:
+    Command xbbbb not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because only the first b was matched.
+
+    then type:
+    $ b
+    it prints:
+    Command b not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because next to "$" is space, so there's no match. 
+    After alter all variables with their values, there's only " b".
+    So it is interpreted as command and cannot be found.
+
+(26) set 
+
+    You will see it prints:
+    set: no variable provided
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because there's no variable.
+
+    and type:
+    export
+
+    You will see it prints:
+    export: no variable name provided
+    myShell$:/home/xy91/ece551/mp_miniproject $
+
+    which is correct because there's no variable for export.
+
+    and type:
+    export MMM NNN
+    or type:
+    export qwe 123 xzc .fa
+
+    You will see it prints:
+    export: too many arguments
+    myShell$:/home/xy91/ece551/mp_miniproject $
+
+    which is correct because export expects one variable name.
+
+(27) env
+    
+    You will see it prints all environment variables and there's no one names "AAA"
+
+    then type: set AAA BBB
+    then type: env
+    You will see it prints all environment variables and there's no one names "AAA".
+    which is correct because we have not exported it yet.
+
+    then type: export AAA
+    You will see it prints all environment variables. And the last one is "AAA=BBB".
+
+    which is correct because we exported our variable "AAA".
+
+    then type: set AAA CCC
+    and check env we can found that the it didn't change. the last one is still "AAA=BBB"
+    
+    which is correct because we update our variable but did not export it.
+
+    then type: export AAA   
+    and check env we can found it changed and the value of "AAA" is updated as "AAA=CCC"
+
+(28) set PATH /home/xy91/ece551/mp_miniproject
+    then type: export PATH
+    then type: clear
+
+    it will print:
+    Command clear not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because the PATH variable is changed by our export. And our changed PATH does not a program called "clear"
+
+    then type: cd .
+    it prints:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because "cd" is a built-in instruction which can be executed without providing PATH.
+
+    then type: /bin/ls
+
+    it will print what current directory has like linux "ls".
+
+    which is correct because we typed full path of command.
+
+    then type: set PATH /usr/
+    then type: export PATH
+    then type: ls
+
+    it will print what current directory has like linux "ls".
+
+    which is correct because "ls" is in directory "/usr/bin", and we provided "/usr/". It should search and find it.
+
+(29) set A as the following:
+    .
+    .
+    - 0
+    + 1.2
+    - 344.35
+    + 999
+    -0-
+    123..
+    55..55
+    10-9
+    77+8
+    4k.
+    123_123
+    _00
+    kMJn13.
+    *
+    ~
+    #1
+    uu^
+    --1
+    ++1
+    ?
+    then type: inc A
+    then type: echo $A
+
+    it prints:
+    1
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because according to README values above are not numbers so it starts from "0" and increases to "1".
+
+(30) set A as the following, and use -> to show A's value after "inc"
+    0 -> 1
+    00 -> 01
+    00000 -> 00001
+    +0 -> +1
+    +000 -> +001
+    -0 -> 1
+    -000 -> 1
+    0.0000 -> 1.0000
+    00.000 -> 01.000
+    +000.00 -> +001.00
+    -00.000 -> 1
+
+    These are all correct because all the things on the left side are numbers with different representation, and all of them equal zero.
+    And all the things on the right side are numbers, all of them equal to 1 with different representation.
+
+(31) set A 555555555555555555999999999999999999
+    inc A
+    echo $A
+
+    It will print:
+    555555555555555556000000000000000000
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because 555555555555555555999999999999999999 + 1 = 555555555555555556000000000000000000.
+
+(32) set A +12312432523523
+    inc A
+    echo $A
+
+    It will print:
+    +12312432523524
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because +12312432523523 + 1 = +12312432523524
+
+(33) set A 0998239.342523412312432412312423432423545767867653542413123901240000000
+    inc A
+    echo $A
+
+    It will print:
+    0998240.342523412312432412312423432423545767867653542413123901240000000
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because 0998239.342523412312432412312423432423545767867653542413123901240000000 + 1 = 0998240.342523412312432412312423432423545767867653542413123901240000000
+
+(34) set nnn mm
+    set kk $nnn
+    $kk
+
+    It will print:
+    Command mm not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    
+    which is correct because "$kk" matches "$nnn", and "$nnn" matches "mm". It's a nested variable.
+
+(35) set  ccc   set    bbb    aaa
+    $ccc
+
+    it will print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because "$ccc" matches "set    bbb    aaa". And "set    bbb    aaa" is a built-in instruction.
+
+    then type: 
+    $bbb
+
+    it will print:
+    Command aaa not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because previously we set "bbb" as "aaa". then when we type "$bbb" it matches "aaa", and it's interpreted as a command.
+
+(36) set A -100.88
+    inc A
+    $A
+
+    it will print:
+    Command -099.88 not found
+    Program exited with status 157
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -100.88 + 1 = -99.88. And -099.88 is another representation of it.
+
+(37) set A -0055.00980
+    inc A
+    $A
+
+    It will print:
+    Command -0054.00980 not found
+    Program exited with status 202
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -0055.00980 + 1 = -54.0098. And -0054.00980 is another representation of it.
+
+(38) set A -0.98
+    inc A
+    $A
+
+    It will print:
+    Command 0.02 not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -0.92 + 1 = 0.02
+
+(39) set A -0.9800
+    inc A
+    $A
+
+    It will print:
+    Command 0.0200 not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -0.9800 + 1 = 0.0200
+
+(40) set A -000.07310
+    inc A
+    echo $A
+
+    It will print:
+    0.92690
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    
+    which is correct because -000.07310 + 1 = 0.92690
+
+(41) set A -78
+    inc A
+    echo $A
+
+    It will print:
+    -77
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -78 + 1 = -77
+
+(42) set A -000.000000000000000000000000000000000000000000000789
+    inc A
+    echo $A
+
+    It will print:
+    0.999999999999999999999999999999999999999999999211
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because -000.000000000000000000000000000000000000000000000789 + 1 = 0.999999999999999999999999999999999999999999999211
+
+(43) set A -1
+    inc A
+    echo $A
+
+    It will print:
+    -0
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+    
+    which is correct because -1 + 1 = 0, and -0 is also 0.
+
+(44) set A 589.1
+    inc A
+    echo $A
+
+    it will print:
+    590.1
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because 589.1 + 1 = 590.1
+
+    then type:
+    inc A
+    echo $A
+
+    it will print:
+    591.1
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because 590.1 + 1 = 591.1
+
+    then type:
+    export A
+    env
+
+    it will print the environment variables, and there's an "A=591.1"
+
+    which is correct because we use export to export "A" and its value, and its value is "591.1".
+
+(45) clear \ (space)
+
+    it will print:
+    Usage: clear [options]
+
+    Options:
+    -T TERM     use this instead of $TERM
+    -V          print curses-version
+    -x          do not try to clear scrollback
+    Program exited with status 1
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because it behaves as linux shell. In this case we pass an argument empty space, which is not the usage of clear.
+
+(46) echo \ \ \ 
+
+    it will print:
+      
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because space after '\' is interpreted as ' '.
+
+(47) all of the following
+    ls -\a
+    ls -a\
+    ls -\a\
+    ls \-a\
+
+    it will print what "ls -a" in linux prints.
+
+    which is correct because in my design, if the character after '\' is not ' ', I will ignore '\'.
+    Step2 only specifies how to handle '\ ' but not tell us how to handle other character with '\'.
+    So I design it this way.
+
+(48) ls -a \  \  
+
+    it will print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ ls -a \  \  
+    /bin/ls: cannot access ' ': No such file or directory
+    /bin/ls: cannot access ' ': No such file or directory
+    Program exited with status 2
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    because we pass 3 arguments to ls, one "-a", one " " and one " ".
+    The latter two were interpreted as directories. No directories named these exist, so the print is correct.
+
+(49) (we are currently in myShell program)
+    ./myShell
+
+    it will print:
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because in my myShell I opended another myShell, that is supported by myShell because it should be treated like normal linux shell. 
+    
+    then type:
+    exit
+
+    it will print:
+    Program exited with status 0
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because the first line is the exit information of the nested shell.
+    After it exit we come back to our original myShell, since the nested shell is treated as a program, every program exiting in our myShell should prompt exit information in myShell(requirement of step 1).
+    So another line of exit information is printed.
+    Then "myShell$:/home/xy91/ece551/mp_miniproject $ " because we back to original shell and wait for new input.
+
+    if we type "exit" we will come back to linux shell as usual.
+
+(50) like (49)
+    after we enter a nested shell
+
+    everything command we type should work as usual.
+
+    which is correct because it's treated as a normal program, it should work as how it works.
+
+(51) like(49)
+    before we enter a nested shell
+    if we set some variables and export some of them.
+    then in our new shell, those exportes variables will keep existing as environment variables(shown in "env").
+    but we cannot use all of previous variables.
+
+    This is correct because nested myShell is a child process, all the environment variables are kept from parent.
+    But in our parent process we keep variables' table in a local variable, this will not be kept into our child process.
+
+    if we exit nested myShell to the original one. previously defined variables still work because we return to the parent process and it's kept there even we enter child process.
+
+(52) l\s
+    \ls
+
+    it will prints what "ls" in linux prints
+
+    which is correct because that's the behaviors of real linux shell.
+
+(53) ls\
+
+    it will print what "ls" in linux prints
+
+    which is correct because that's our design and it's reasonable. in linux shell when there's '\\' at the end, there's another input line prompt. 
+    This is an optional functionality because it works when the input line is too long and you can make it more manageable this way. But it doesn't hurt just enter the whole line in one time.
+    So in myShell I design my program to behave like this.
+
+(54) set \ a b
+
+    it will print:
+    set: invalid variable name
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because in set command, the second word is always interpreted as variable name and it's not constrained by '\' except "$"'s constrain.
+
+(55) set bb kk
+    set $bb nn
+    $kk
+
+    it will print:
+    Command nn not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because "$bb" matches "kk", and the variable name should always be replaced by its value.
+
+(56) set abc \ \ bbb
+    $abc
+
+    it will print:
+    Command  bbb not found
+    Program exited with status 0
+    myShell$:/home/xy91/ece551/mp_miniproject $ 
+
+    which is correct because in my design I make the '\ ' rule still effective in set's value part.
+
+(57) for valgrind, normal program execution will be all clean, for example "ls", "set a b", space, "exit".
+    and those unexecutable commands and program failure will leak some memory, for example "b" "xzceqweqe".
+
+    which is correct because that's what was told in Piazza.
